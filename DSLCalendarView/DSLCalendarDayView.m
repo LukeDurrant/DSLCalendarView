@@ -52,9 +52,10 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self != nil) {
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor clearColor];
         _positionInWeek = DSLCalendarDayViewMidWeek;
     }
+    
     
     return self;
 }
@@ -98,8 +99,9 @@
     if ([self isMemberOfClass:[DSLCalendarDayView class]]) {
         // If this isn't a subclass of DSLCalendarDayView, use the default drawing
         [self drawBackground];
-        [self drawBorders];
+        //[self drawBorders];
         [self drawDayNumber];
+        
     }
 }
 
@@ -107,34 +109,39 @@
 #pragma mark Drawing
 
 - (void)drawBackground {
+    [[UIColor clearColor] setFill];
+    
+    self.backgroundColor = [UIColor clearColor];
     if (self.selectionState == DSLCalendarDayViewNotSelected) {
+        
         if (self.isInCurrentMonth) {
-            [[UIColor colorWithWhite:245.0/255.0 alpha:1.0] setFill];
+            //[[UIColor colorWithWhite:245.0/255.0 alpha:1.0] setFill];
+            [[[UIImage imageNamed:@"DSLCalendarDay"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)] drawInRect:self.bounds];
         }
         else {
-            [[UIColor colorWithWhite:225.0/255.0 alpha:1.0] setFill];
+            [[[UIImage imageNamed:@"DSLCalendarDay"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)] drawInRect:self.bounds];
         }
-        UIRectFill(self.bounds);
     }
     else {
         switch (self.selectionState) {
             case DSLCalendarDayViewNotSelected:
+                [[[UIImage imageNamed:@"DSLCalendarDay"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)] drawInRect:self.bounds];
                 break;
                 
             case DSLCalendarDayViewStartOfSelection:
-                [[[UIImage imageNamed:@"DSLCalendarDaySelection-left"] resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)] drawInRect:self.bounds];
+                [[[UIImage imageNamed:@"DSLCalendarDaySelection"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)] drawInRect:self.bounds];
                 break;
                 
             case DSLCalendarDayViewEndOfSelection:
-                [[[UIImage imageNamed:@"DSLCalendarDaySelection-right"] resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)] drawInRect:self.bounds];
+                [[[UIImage imageNamed:@"DSLCalendarDaySelection"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)] drawInRect:self.bounds];
                 break;
                 
             case DSLCalendarDayViewWithinSelection:
-                [[[UIImage imageNamed:@"DSLCalendarDaySelection-middle"] resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)] drawInRect:self.bounds];
+                [[[UIImage imageNamed:@"DSLCalendarDaySelection"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)] drawInRect:self.bounds];
                 break;
                 
             case DSLCalendarDayViewWholeSelection:
-                [[[UIImage imageNamed:@"DSLCalendarDaySelection"] resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)] drawInRect:self.bounds];
+                [[[UIImage imageNamed:@"DSLCalendarDaySelection"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)] drawInRect:self.bounds];
                 break;
         }
     }
@@ -169,17 +176,24 @@
 
 - (void)drawDayNumber {
     if (self.selectionState == DSLCalendarDayViewNotSelected) {
-        [[UIColor colorWithWhite:66.0/255.0 alpha:1.0] set];
+        if (self.isInCurrentMonth) {
+            [[UIColor colorWithRed:154.0f/255.0f green:146.0f /255.0f blue:132.0f/255.0f alpha:1.0] set];
+        }else{
+            [[UIColor colorWithRed:154.0f/255.0f green:146.0f/255.0f blue:132.0f/255.0f alpha:0.5f] set];
+        }
+        
     }
     else {
         [[UIColor whiteColor] set];
     }
     
-    UIFont *textFont = [UIFont boldSystemFontOfSize:17.0];
+    UIFont *textFont = [UIFont fontWithName:@"CrownSackersGothic_Heavy" size:15.0];
+    
     CGSize textSize = [_labelText sizeWithFont:textFont];
     
     CGRect textRect = CGRectMake(ceilf(CGRectGetMidX(self.bounds) - (textSize.width / 2.0)), ceilf(CGRectGetMidY(self.bounds) - (textSize.height / 2.0)), textSize.width, textSize.height);
     [_labelText drawInRect:textRect withFont:textFont];
+    
 }
 
 @end

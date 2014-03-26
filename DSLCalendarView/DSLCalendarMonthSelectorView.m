@@ -77,7 +77,9 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-
+    
+    UIFont *fontGothic = [UIFont fontWithName:@"CrownSackersGothic_Heavy" size:self.titleLabel.font.pointSize];
+    self.titleLabel.font = fontGothic;
     // Get a dictionary of localised day names
     NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:NSCalendarCalendarUnit | NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit fromDate:[NSDate date]];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -96,6 +98,7 @@
     // Set the day name label texts to localised day names
     for (UILabel *label in self.dayLabels) {
         label.text = [[dayNames objectForKey:@(label.tag)] uppercaseString];
+        label.font = [UIFont fontWithName:@"CrownSackersGothic_Heavy" size:label.font.pointSize];;
     }
 }
 
@@ -106,6 +109,7 @@
     [super drawRect:rect];
     
     if ([self isMemberOfClass:[DSLCalendarMonthSelectorView class]]) {
+        /*
         CGContextRef context = UIGraphicsGetCurrentContext();
         CGContextSaveGState(context);
         
@@ -116,6 +120,7 @@
         CGContextStrokePath(context);
         
         CGContextRestoreGState(context);
+         */
     }
 }
 

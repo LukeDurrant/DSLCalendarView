@@ -80,7 +80,7 @@
     }
     
     self.titleLabel.text = [NSString stringWithFormat:@"%d", day.day];
-
+    self.titleLabel.font = [UIFont fontWithName:@"CrownSackersGothic_Heavy" size:self.titleLabel.font.pointSize];
     CGFloat const imagePadding = 15.0;
     CGRect frame = self.frame;
     frame.origin.x -= imagePadding;
